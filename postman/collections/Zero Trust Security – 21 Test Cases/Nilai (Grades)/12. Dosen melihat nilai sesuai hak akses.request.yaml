@@ -1,0 +1,27 @@
+$kind: http-request
+description: Requires tokenDosen1 to be set. Run TC for dosen1 login first (not in this collection - add a login for dosen1 if needed, or set tokenDosen1 manually).
+url: "{{gatewayUrl}}/nilai"
+method: GET
+headers:
+  Authorization: Bearer {{tokenDosen1}}
+  X-Device-ID: DEVICE-DSN-101
+scripts:
+  - type: beforeRequest
+    code: |-
+      // Ensure dosen1 token is available
+      if (!pm.collectionVariables.get("tokenDosen1")) {
+          console.warn("TC12: tokenDosen1 is not set. Login as dosen1 first.");
+      }
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test("TC12 - Dosen melihat nilai: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("TC12 - Response contains grades array", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("grades");
+          pm.expect(json.grades).to.be.an("array");
+      });
+settings: {}
+order: 6000

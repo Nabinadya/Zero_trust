@@ -1,0 +1,16 @@
+$kind: http-request
+description: "dosen1 finalizes CS101 (their own class). Only succeeds between 07:00–21:00 Asia/Jakarta. **WARNING: This is irreversible if finalization cannot be undone.**"
+url: "{{gatewayUrl}}/kelas/CS101/finalisasi"
+method: POST
+headers:
+  Authorization: Bearer {{tokenDosen1}}
+  X-Device-ID: DEVICE-DSN-101
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC14 - Dosen memfinalisasi kelas sendiri: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+settings: {}
+order: 2000

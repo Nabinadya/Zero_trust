@@ -1,0 +1,16 @@
+$kind: http-request
+description: dosen1 tries to finalize CS202 which belongs to dosen2. Must be denied.
+url: "{{gatewayUrl}}/kelas/CS202/finalisasi"
+method: POST
+headers:
+  Authorization: Bearer {{tokenDosen1}}
+  X-Device-ID: DEVICE-DSN-101
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC11 - Dosen finalisasi kelas dosen lain ditolak: status 401 or 403", function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 1000

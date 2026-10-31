@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{gatewayUrl}}/auth/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "username": "mhs1",
+      "password": "password123",
+      "deviceId": "DEVICE-UNKNOWN-999"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC03 - Perangkat tidak terdaftar ditolak: status 401 or 403", function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 3000

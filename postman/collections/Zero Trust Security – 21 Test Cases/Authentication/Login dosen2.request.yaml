@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{gatewayUrl}}/auth/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "username": "dosen2",
+      "password": "password123",
+      "deviceId": "DEVICE-DSN-102"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Login dosen2: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Login dosen2: save token", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("accessToken");
+          pm.collectionVariables.set("tokenDosen2", json.accessToken);
+      });
+    language: text/javascript
+settings: {}
+order: 5000

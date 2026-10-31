@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{gatewayUrl}}/nilai"
+method: GET
+headers:
+  Authorization: "{{bearer_token_0tal}}"
+  X-Device-ID: DEVICE-MHS-001
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC07 - Token palsu ditolak: status 401 or 403", function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 4000

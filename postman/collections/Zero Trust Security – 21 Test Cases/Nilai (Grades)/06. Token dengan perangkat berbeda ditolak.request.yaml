@@ -1,0 +1,16 @@
+$kind: http-request
+description: Uses mhs1's token but with mhs2's device ID. Must be denied.
+url: "{{gatewayUrl}}/nilai"
+method: GET
+headers:
+  Authorization: Bearer {{tokenMhs1}}
+  X-Device-ID: DEVICE-MHS-002
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC06 - Token dengan perangkat berbeda ditolak: status 401 or 403", function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 3000

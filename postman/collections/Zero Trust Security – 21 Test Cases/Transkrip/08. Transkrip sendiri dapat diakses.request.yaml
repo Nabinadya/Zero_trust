@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{gatewayUrl}}/transkrip/MHS001"
+method: GET
+headers:
+  Authorization: Bearer {{tokenMhs1}}
+  X-Device-ID: DEVICE-MHS-001
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC08 - Transkrip sendiri dapat diakses: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+settings: {}
+order: 1000

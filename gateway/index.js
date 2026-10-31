@@ -131,14 +131,14 @@ function determineStatusCode(reason) {
 }
 
 // === Proxy ke Grade Service ===
+// hpm v3: gunakan app.use('/prefix', ...) + pathRewrite yang mengembalikan prefix
+// karena Express strips prefix sebelum diteruskan ke hpm.
 app.use('/nilai', createProxyMiddleware({
   target: config.gradeServiceUrl,
   changeOrigin: true,
-  pathRewrite: { '^/nilai': '/nilai' },
-  // Jangan parse body lagi (sudah di-parse express)
+  pathRewrite: (path) => '/nilai' + (path === '/' ? '' : path),
   on: {
     proxyReq: (proxyReq, req) => {
-      // Kirim body yang sudah di-parse
       if (req.body && Object.keys(req.body).length > 0) {
         const bodyData = JSON.stringify(req.body);
         proxyReq.setHeader('Content-Type', 'application/json');
@@ -152,7 +152,7 @@ app.use('/nilai', createProxyMiddleware({
 app.use('/kelas', createProxyMiddleware({
   target: config.gradeServiceUrl,
   changeOrigin: true,
-  pathRewrite: { '^/kelas': '/kelas' },
+  pathRewrite: (path) => '/kelas' + (path === '/' ? '' : path),
   on: {
     proxyReq: (proxyReq, req) => {
       if (req.body && Object.keys(req.body).length > 0) {
@@ -169,7 +169,7 @@ app.use('/kelas', createProxyMiddleware({
 app.use('/transkrip', createProxyMiddleware({
   target: config.transcriptServiceUrl,
   changeOrigin: true,
-  pathRewrite: { '^/transkrip': '/transkrip' },
+  pathRewrite: (path) => '/transkrip' + (path === '/' ? '' : path),
   on: {
     proxyReq: (proxyReq, req) => {
       if (req.body && Object.keys(req.body).length > 0) {

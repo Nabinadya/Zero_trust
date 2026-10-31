@@ -1,0 +1,8 @@
+name: Zero Trust Local
+values:
+  - key: gatewayUrl
+    value: 'http://localhost:3000'
+  - key: gradeId
+    value: '1'
+  - key: tokenMhs1
+    value: ''

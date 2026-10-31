@@ -146,17 +146,19 @@ app.put('/nilai/:id', verifyUserToken, (req, res) => {
  * Setelah berhasil, melakukan sinkronisasi transkrip melalui gateway.
  */
 app.post('/kelas/:id/finalisasi', verifyUserToken, async (req, res) => {
-  const classId = parseInt(req.params.id, 10);
+  const classParam = req.params.id;
   const user = req.user;
   const db = getDatabase();
 
   try {
-    // Defense in depth: service juga cek ownership
-    const kelas = db.prepare('SELECT * FROM classes WHERE id = ?').get(classId);
+    // Defense in depth: service juga cek ownership (by id atau kode_kelas)
+    const kelas = db.prepare('SELECT * FROM classes WHERE id = ? OR kode_kelas = ?').get(classParam, classParam);
 
     if (!kelas) {
       return res.status(404).json({ error: 'Kelas tidak ditemukan' });
     }
+
+    const classId = kelas.id;
 
     if (kelas.dosen_id !== user.sub) {
       return res.status(403).json({ error: 'Anda bukan dosen pengampu kelas ini' });

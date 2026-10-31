@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{transcriptServiceUrl}}/transkrip/sinkron"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: "{}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC21 - Sinkronisasi tanpa token service ditolak: status 401 or 403", function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 3000

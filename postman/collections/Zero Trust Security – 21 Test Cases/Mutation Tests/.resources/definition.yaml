@@ -1,0 +1,3 @@
+$kind: collection
+description: "⚠️ WARNING: Requests in this folder modify the database. Grade changes and finalization are only permitted between 07:00–21:00 Asia/Jakarta timezone. Run with caution."
+order: 5000

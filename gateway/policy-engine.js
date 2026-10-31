@@ -1,4 +1,4 @@
-/**
+git/**
  * gateway/policy-engine.js
  * Policy Engine / Policy Administrator (PE/PA)
  * 
@@ -182,10 +182,10 @@ function evaluateEndpointPolicy(method, path, user, deviceId, req) {
     return { allowed: true, reason: 'Dosen authorized to update grade', user, tokenType: 'access' };
   }
 
-  // POST /kelas/:id/finalisasi
-  const kelasMatch = path.match(/^\/kelas\/(\d+)\/finalisasi$/);
+  // POST /kelas/:id/finalisasi (mendukung ID angka maupun kode kelas seperti CS202)
+  const kelasMatch = path.match(/^\/kelas\/([^/]+)\/finalisasi$/);
   if (kelasMatch && method === 'POST') {
-    const classId = parseInt(kelasMatch[1], 10);
+    const classParam = kelasMatch[1];
 
     if (user.role !== 'dosen') {
       return { allowed: false, reason: 'Only dosen can finalize classes', user, tokenType: 'access' };
@@ -201,8 +201,8 @@ function evaluateEndpointPolicy(method, path, user, deviceId, req) {
       };
     }
 
-    // Cek kepemilikan kelas
-    const kelas = db.prepare('SELECT * FROM classes WHERE id = ?').get(classId);
+    // Cek kepemilikan kelas (by ID atau kode_kelas)
+    const kelas = db.prepare('SELECT * FROM classes WHERE id = ? OR kode_kelas = ?').get(classParam, classParam);
     if (!kelas) {
       return { allowed: false, reason: 'Class not found', user, tokenType: 'access' };
     }

@@ -1,0 +1,23 @@
+$kind: http-request
+description: "**Needs Configuration** — `gradeId` must be set (from TC04 or manually). Only succeeds if the grade belongs to dosen1's class (CS101), is not finalized, and the request is made between 07:00–21:00 Asia/Jakarta. **Needs Configuration** — confirm the request body schema matches your implementation."
+url: "{{gatewayUrl}}/nilai/{{gradeId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{tokenDosen1}}
+  X-Device-ID: DEVICE-DSN-101
+body:
+  type: json
+  content: |-
+    {
+      "nilai": 85
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC13 - Dosen mengubah nilai: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+settings: {}
+order: 1000

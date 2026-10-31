@@ -1,0 +1,28 @@
+$kind: collection
+description: ""
+variables:
+  - key: tokenMhs1
+    secret: true
+    disabled: false
+  - key: refreshTokenMhs1
+    value: ""
+    disabled: false
+    secret: false
+  - key: bearer_token_0tal
+    secret: true
+    disabled: false
+  - key: json_web_token_07e7
+    secret: true
+    disabled: false
+  - key: tokenDosen1
+    value: ""
+    disabled: false
+  - key: tokenDosen2
+    value: ""
+    disabled: false
+  - key: tokenAdmin
+    value: ""
+    disabled: false
+  - key: gradeId
+    value: ""
+    disabled: false

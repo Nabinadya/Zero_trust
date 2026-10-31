@@ -1,0 +1,24 @@
+$kind: http-request
+description: "**Needs Configuration** — Service client credentials (clientId and clientSecret) are not provided in the spec. Replace `NEEDS_CONFIGURATION` with actual service credentials. This request tests both valid and invalid credentials — duplicate this request or add a second request for the invalid case."
+url: "{{gatewayUrl}}/auth/service"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "clientId": "NEEDS_CONFIGURATION",
+      "clientSecret": "NEEDS_CONFIGURATION"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      // TC20a - Valid service credentials (configure credentials first)
+      pm.test("TC20 - Service token endpoint reachable", function () {
+          // Update this test after configuring real credentials
+          pm.expect(pm.response.code).to.be.oneOf([200, 401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 10000

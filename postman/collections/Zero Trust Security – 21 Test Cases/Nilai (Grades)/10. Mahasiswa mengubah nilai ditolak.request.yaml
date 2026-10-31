@@ -1,0 +1,23 @@
+$kind: http-request
+description: "**Needs Configuration** — `gradeId` is set automatically from TC04 response if available. If TC04 did not return an id field, set `gradeId` manually."
+url: "{{gatewayUrl}}/nilai/{{gradeId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{tokenMhs1}}
+  X-Device-ID: DEVICE-MHS-001
+body:
+  type: json
+  content: |-
+    {
+      "nilai": 100
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC10 - Mahasiswa mengubah nilai ditolak: status 401 or 403", function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 5000

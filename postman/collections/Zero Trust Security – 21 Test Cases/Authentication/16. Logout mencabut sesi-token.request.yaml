@@ -1,0 +1,23 @@
+$kind: http-request
+name: 16. Logout mencabut sesi/token
+description: "**Needs Configuration** — The exact logout request body schema (whether it requires refreshToken, token, or other fields) depends on the actual implementation. Adjust the body if your logout endpoint uses a different format."
+url: "{{gatewayUrl}}/auth/logout"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{tokenMhs1}}
+body:
+  type: json
+  content: |-
+    {
+      "refreshToken": "{{refreshTokenMhs1}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC16 - Logout berhasil: status 200 or 204", function () {
+          pm.expect(pm.response.code).to.be.oneOf([200, 204]);
+      });
+    language: text/javascript
+settings: {}
+order: 8000

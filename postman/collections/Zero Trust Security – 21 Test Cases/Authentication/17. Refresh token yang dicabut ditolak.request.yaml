@@ -1,0 +1,21 @@
+$kind: http-request
+description: Uses the refresh token that was revoked by TC16. Must be denied.
+url: "{{gatewayUrl}}/auth/refresh"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "refreshToken": "{{refreshTokenMhs1}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC17 - Refresh token dicabut ditolak: status 401 or 403", function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 9000

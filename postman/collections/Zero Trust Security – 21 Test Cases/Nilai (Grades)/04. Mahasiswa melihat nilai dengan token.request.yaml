@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{gatewayUrl}}/nilai"
+method: GET
+headers:
+  Authorization: Bearer {{tokenMhs1}}
+  X-Device-ID: DEVICE-MHS-001
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC04 - Mahasiswa melihat nilai: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("TC04 - Response is array or object", function () {
+          pm.response.to.be.json;
+          const json = pm.response.json();
+          if (json.grades && json.grades.length > 0) {
+              pm.collectionVariables.set("gradeId", String(json.grades[0].id));
+          }
+      });
+settings: {}
+order: 1000

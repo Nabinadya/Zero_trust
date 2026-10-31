@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{gatewayUrl}}/nilai"
+method: GET
+headers:
+  X-Device-ID: DEVICE-MHS-001
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC05 - Nilai tanpa token ditolak: status 401 or 403", function () {
+          pm.expect(pm.response.code).to.be.oneOf([401, 403]);
+      });
+    language: text/javascript
+settings: {}
+order: 2000

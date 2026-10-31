@@ -1,0 +1,27 @@
+$kind: http-request
+url: "{{gatewayUrl}}/auth/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "username": "admin1",
+      "password": "password123",
+      "deviceId": "DEVICE-ADMIN-001"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Login admin1: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("Login admin1: save token", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("accessToken");
+          pm.collectionVariables.set("tokenAdmin", json.accessToken);
+      });
+    language: text/javascript
+settings: {}
+order: 6000

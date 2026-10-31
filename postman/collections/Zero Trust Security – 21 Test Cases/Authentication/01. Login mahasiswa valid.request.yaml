@@ -1,0 +1,29 @@
+$kind: http-request
+url: "{{gatewayUrl}}/auth/login"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "username": "mhs1",
+      "password": "password123",
+      "deviceId": "DEVICE-MHS-001"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("TC01 - Login mahasiswa valid: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("TC01 - Response has token fields", function () {
+          const json = pm.response.json();
+          pm.expect(json).to.have.property("accessToken").that.is.a("string");
+          pm.expect(json).to.have.property("refreshToken").that.is.a("string");
+          pm.collectionVariables.set("tokenMhs1", json.accessToken);
+          pm.collectionVariables.set("refreshTokenMhs1", json.refreshToken);
+      });
+    language: text/javascript
+settings: {}
+order: 1000

@@ -1,0 +1,22 @@
+$kind: http-request
+description: Requires tokenAdmin to be set. Add a login request for admin1 or set tokenAdmin manually.
+url: "{{gatewayUrl}}/admin/audit-logs"
+method: GET
+headers:
+  Authorization: Bearer {{tokenAdmin}}
+  X-Device-ID: DEVICE-ADMIN-001
+scripts:
+  - type: beforeRequest
+    code: |-
+      if (!pm.collectionVariables.get("tokenAdmin")) {
+          console.warn("TC18: tokenAdmin is not set. Login as admin1 first.");
+      }
+    language: text/javascript
+  - type: afterResponse
+    code: |-
+      pm.test("TC18 - Admin melihat audit log: status 200", function () {
+          pm.response.to.have.status(200);
+      });
+    language: text/javascript
+settings: {}
+order: 1000
