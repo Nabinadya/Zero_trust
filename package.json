@@ -1,0 +1,28 @@
+{
+  "name": "zero-trust-grade-system",
+  "version": "1.0.0",
+  "description": "Sistem Nilai Universitas dengan arsitektur Zero Trust Security",
+  "private": true,
+  "scripts": {
+    "seed": "node scripts/seed.js",
+    "start:gateway": "node gateway/index.js",
+    "start:grade": "node grade-service/index.js",
+    "start:transcript": "node transcript-service/index.js",
+    "start:all": "node scripts/start-all.js",
+    "test": "jest --forceExit --detectOpenHandles --runInBand",
+    "test:verbose": "jest --forceExit --detectOpenHandles --runInBand --verbose"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "http-proxy-middleware": "^3.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
+  }
+}
